@@ -17,19 +17,26 @@ def process_pdf(pdf_path, output_image_dir="temp_images", prefix=""):
         page = doc[page_num]
         full_text += page.get_text() + "\n"
         
-        image_list = page.get_images(full=True)
-        for img_index, img in enumerate(image_list):
+        # Get all images with their positioning info
+        image_info = page.get_image_info(xrefs=True)
+        
+        for img_idx, info in enumerate(image_info):
             try:
-                xref = img[0]
+                xref = info['xref']
+                bbox = info['bbox'] # (x0, y0, x1, y1)
+                
+                # Expand bbox slightly to capture captions/labels
+                context_bbox = (bbox[0] - 30, bbox[1] - 60, bbox[2] + 30, bbox[3] + 60)
+                context_text = page.get_textbox(context_bbox).strip()
+                
                 base_image = doc.extract_image(xref)
                 image_bytes = base_image["image"]
                 image_ext = base_image["ext"]
                 
-                # force ext to jpg/png if unknown
                 if image_ext not in ["jpg", "jpeg", "png"]:
                     image_ext = "jpg"
                     
-                img_filename = f"{base_name}_page{page_num+1}_img{img_index+1}.{image_ext}"
+                img_filename = f"{base_name}_page{page_num+1}_img{img_idx+1}.{image_ext}"
                 img_filepath = os.path.join(output_image_dir, img_filename)
                 
                 with open(img_filepath, "wb") as f:
@@ -38,10 +45,11 @@ def process_pdf(pdf_path, output_image_dir="temp_images", prefix=""):
                 extracted_images.append({
                     "filename": img_filename,
                     "filepath": img_filepath,
-                    "page": page_num + 1
+                    "page": page_num + 1,
+                    "context": context_text # This is the "magic" metadata for the AI
                 })
             except Exception as e:
-                print(f"Warning: Could not extract image {img_index} from page {page_num}: {e}")
+                print(f"Warning: Could not extract image {img_idx} from page {page_num}: {e}")
             
     doc.close()
     return {
