@@ -21,7 +21,7 @@ You must follow these instructions strictly:
 2. If information conflicts between the two reports (e.g. differing explanations), explicitly mention the conflict.
 3. If information is missing for a required section, write "Not Available".
 4. Use simple, client-friendly language and avoid unnecessary technical jargon.
-5. You MUST include images in your output. The available image filenames are given. In the "area_wise_observations" section, whenever you write an observation, examine the provided images. Identify which images correspond to that observation based on context, and inline the exact image filename inside brackets like so: `[IMAGE: {filename}]`. If an image is expected but missing, write "Image Not Available."
+5. You MUST include images in your output. The available image filenames are given. In the "area_wise_observations" section, whenever you write an observation, examine the provided images. Identify which images correspond to that observation based on context, and inline the exact image filename inside brackets like so: `[IMAGE: {filename}]`. If an image is expected but missing, or if an image in the report is not clearly linked with the text, avoid making incorrect assumptions and instead safely mark it as "Image Not Available."
 6. Do NOT invent facts or hallucinate image filenames that aren't provided.
 
 You will output a STRICT JSON object answering the 7 required sections:
