@@ -34,8 +34,8 @@ if st.button("Generate DDR Report", type="primary"):
             
             # Process PDFs
             st.info("Extracting Text & Images from PDFs...")
-            ins_data = process_pdf(ins_path, output_image_dir=img_dir)
-            thm_data = process_pdf(thm_path, output_image_dir=img_dir)
+            ins_data = process_pdf(ins_path, output_image_dir=img_dir, prefix="inspection_doc")
+            thm_data = process_pdf(thm_path, output_image_dir=img_dir, prefix="thermal_doc")
             
             # AI generation
             st.info("Synthesizing Report with Gemini API...")

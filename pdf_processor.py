@@ -1,7 +1,7 @@
 import fitz # PyMuPDF
 import os
 
-def process_pdf(pdf_path, output_image_dir="temp_images"):
+def process_pdf(pdf_path, output_image_dir="temp_images", prefix=""):
     if not os.path.exists(output_image_dir):
         os.makedirs(output_image_dir)
         
@@ -10,7 +10,7 @@ def process_pdf(pdf_path, output_image_dir="temp_images"):
     extracted_images = []
     
     # To avoid duplicate filenames when processing multiple PDFs
-    base_name = os.path.splitext(os.path.basename(pdf_path))[0]
+    base_name = prefix if prefix else os.path.splitext(os.path.basename(pdf_path))[0]
     
     # Some mock PDFs might generate images with odd names, we simply iterate text and images
     for page_num in range(len(doc)):
