@@ -1,0 +1,19 @@
+# Security
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Application Data
+temp_images/
+final_ddr_report.pdf
+models.log
+out.txt
+err.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
