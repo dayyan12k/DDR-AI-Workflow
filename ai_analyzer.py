@@ -5,7 +5,9 @@ from PIL import Image
 from dotenv import load_dotenv
 
 load_dotenv()
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+_api_key = os.environ.get("GEMINI_API_KEY")
+if _api_key:
+    genai.configure(api_key=_api_key)
 
 def generate_ddr_report(inspection_data, thermal_data):
     # Utilizing advanced Gemini 2.5 Flash model to avoid Free Tier Rate Limits
